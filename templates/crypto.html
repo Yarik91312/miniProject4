@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шифрування та дешифрування</title>
+</head>
+<body>
+    <h1>Шифрування та дешифрування</h1>
+
+    <h2>Шифрування</h2>
+    <form id="encrypt-form">
+        <label for="text">Текст для шифрування:</label><br>
+        <input type="text" id="text" name="text"><br>
+        <button type="submit">Зашифрувати</button>
+    </form>
+
+    <div id="encrypted-result"></div>
+
+    <hr>
+
+    <h2>Дешифрування</h2>
+    <form id="decrypt-form">
+        <label for="text1">Зашифрований текст:</label><br>
+        <input type="text" id="text1" name="text1"><br>
+        <button type="submit">Розшифрувати</button>
+    </form>
+
+    <div id="decrypted-result"></div>
+
+    <script>
+        const urlEncrypt = '/encrypt';
+        const urlDecrypt = '/decrypt';
+
+        document.getElementById('encrypt-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch(urlEncrypt, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to encrypt text');
+                }
+
+                const data = await response.json();
+                document.getElementById('encrypted-result').innerText = `Encrypted Text: ${data.encrypted_text}`;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('encrypted-result').innerText = `Error: ${error.message}`;
+            }
+        });
+
+        document.getElementById('decrypt-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            try {
+                const response = await fetch(urlDecrypt, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to decrypt text');
+                }
+
+                const data = await response.json();
+                document.getElementById('decrypted-result').innerText = `Decrypted Text: ${data.decrypted_text}`;
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('decrypted-result').innerText = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
+
+
