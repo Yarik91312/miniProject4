@@ -41,6 +41,9 @@ cipher_suite = Fernet(key)
 @app.route('/')
 def index():
     return render_template('index1.html')
+@app.route('/')
+def f_4():
+    print('asdasd')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
