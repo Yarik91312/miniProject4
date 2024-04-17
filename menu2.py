@@ -62,7 +62,9 @@ def signup():
     else:
         return render_template('signup.html')
 
-
+@app.route('/cc')
+def f_76():
+    print('змінна')
 
 
 @app.route('/login', methods=['GET','POST'])
